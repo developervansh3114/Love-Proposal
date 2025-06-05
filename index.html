@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Proposal</title>
+    <style>
+       html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      background: linear-gradient(135deg, #fce4ec 0%, #f9d7e0 50%, #f0a2bb 100%);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: #4a213e;
+      position: relative;
+      height: 100vh;
+    }
+
+    .body {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(145deg, #fae3ea, #ddb4cd);
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+      box-shadow:
+        inset 2px 2px 5px #fbe9f3,
+        inset -2px -2px 5px #d7aac1;
+      filter: drop-shadow(0 6px 6px rgba(255, 105, 180, 0.15));
+      z-index: 10;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -30%;
+      left: -30%;
+      width: 160%;
+      height: 160%;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at center, rgba(255 182 193 / 0.15) 0%, transparent 70%) 20% 20% / 50% 50% no-repeat,
+        radial-gradient(ellipse at center, rgba(237 141 176 / 0.25) 0%, transparent 60%) 80% 50% / 15% 15% no-repeat,
+        radial-gradient(ellipse at center, rgba(255 192 203 / 0.08) 0%, transparent 75%) 40% 70% / 40% 40% no-repeat;
+      filter: blur(40px);
+      z-index: 0;
+    }
+        /* Envelope Container */
+        .envelope-container {
+      width: 220px;
+      height: 160px;
+      perspective: 1000px;
+      cursor: pointer;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 16px;
+      box-shadow:
+        0 12px 40px rgba(224, 75, 160, 0.18),
+        0 8px 14px rgba(207, 22, 82, 0.2);
+      background: radial-gradient(ellipse at center, #f8bfd4 0%, #dfa3bb 100%);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .envelope-container:hover {
+      box-shadow:
+        0 18px 52px rgba(224, 75, 160, 0.28),
+        0 12px 18px rgba(207, 22, 82, 0.3);
+    }
+    .envelope-container:active {
+      box-shadow:
+        0 10px 24px rgba(224, 75, 160, 0.34),
+        0 6px 12px rgba(207, 22, 82, 0.38);
+    }
+
+        /* Envelope */
+        .envelope {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #fef4f9, #fad8e4);
+      box-shadow: inset 5px 5px 8px #eabccf,
+        inset -5px -5px 8px #ffffff;
+      filter: drop-shadow(0 8px 8px rgba(207, 22, 82, 0.15));
+      overflow: visible;
+    }
+
+    .flap {
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(145deg, #f6bcd4, #e67aa9);
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      box-shadow:
+        0 4px 8px rgba(207, 22, 82, 0.4);
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: bottom center;
+      transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
+      z-index: 20;
+      box-shadow:
+        0 2px 10px rgba(255, 105, 180, 0.5),
+        inset 0 4px 6px rgba(255, 105, 180, 0.4);
+      background: linear-gradient(135deg, #f197bf, #e04483);
+      filter: drop-shadow(0 6px 6px rgba(255, 105, 180, 0.2));
+    }
+
+    .flap.open {
+      animation: flapOpen 1s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes flapOpen {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(-180deg); }
+    }
+
+    .envelope-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Dancing Script', cursive;
+      font-size: 26px;
+      color: #7e4060;
+      user-select: none;
+      text-shadow:
+        0 2px 6px rgba(255, 105, 180, 0.8);
+      z-index: 25;
+      pointer-events: none;
+      letter-spacing: 0.04em;
+      transition: opacity 0.5s ease;
+    }
+
+    .letter {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      max-width: 1400px;
+      background: #fff1f9;
+      box-shadow:
+        0 8px 18px rgba(255, 74, 149, 0.3);
+      border-radius: 16px;
+      padding: 30px 25px 25px 25px;
+      transform: translate(-50%, -50%);
+      font-family: 'Dancing Script', cursive;
+      font-size: 24px;
+      color: #721a4e;
+      line-height: 1.42;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: 0.07em;
+      transition: opacity 1s ease 1.5s;
+      z-index: 30;
+    }
+    .letter.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .letter h2 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-weight: 600;
+      font-size: 30px;
+      color: #bf286d;
+      text-shadow: 1px 1px 6px rgba(255 90 152 / 0.7);
+      letter-spacing: 0.05em;
+    }
+    .letter .text {
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid #bf286d;
+      width: 0;
+      animation: none;
+      user-select: text;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blinkCaret {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: #bf286d; }
+    }
+
+    /* Hearts Floating Animation */
+    @keyframes floatUp {
+      0% {
+        transform: translateY(20px) scale(0.9);
+        opacity: 1;
+        filter: drop-shadow(0 0 6px #f21368);
+      }
+      100% {
+        transform: translateY(-130px) scale(1.2);
+        opacity: 0;
+        filter: drop-shadow(0 0 10px #fb77a4);
+      }
+    }
+
+    .floating-heart {
+      position: fixed;
+      font-size: 36px;
+      pointer-events: none;
+      user-select: none;
+      color: #f21368;
+      text-shadow:
+        0 0 5px #ff75bb,
+        0 0 10px #ef3679;
+      animation-name: floatUp;
+      animation-timing-function: ease-out;
+      animation-fill-mode: forwards;
+    }
+    </style>
+</head>
+<body>
+
+<!-- Envelope container -->
+<div class="envelope-container" role="button" aria-label="Open love proposal envelope" tabindex="0"
+  onkeydown="if(event.key==='Enter' || event.key===' ') { event.preventDefault(); openEnvelope() }" onclick="openEnvelope()">
+  <div class="envelope" id="envelope">
+    <div class="flap" id="flap"></div>
+    <div class="body"></div>
+    <p class="envelope-text" id="envelopeText">Tap <br> Here</p>
+  </div>
+  <!-- <div class="hearts" id="hearts">❤️❤️</div> -->
+</div>
+
+<!-- Romantic Letter -->
+<div class="letter" id="letter" aria-live="polite" aria-atomic="true" aria-relevant="additions">
+  <h2>My Dearest,</h2>
+  <div class="text" id="letterText">
+    Every moment with you feels like magic, a beautiful dream I never want to wake up from. 💕<br><br>
+    From the first moment we met, my heart knew you were the one I was meant to be with. ❤️<br><br>
+    Every laugh, every smile, every little thing we share feels like home. 🥰<br><br>
+    With you, I feel complete. 💖<br><br>
+    I want to be with you —  
+not just today, not for a while...  
+but for all the days,<br><br> the boring ones, the exciting ones, the hard ones.  
+Every day, if it means being next to you, it's worth it. 💕<br><br>
+    Will you be the love story I will always cherish? 💖
+  </div>
+</div>
+
+<!-- Floating Hearts -->
+<script>
+  const envelope = document.getElementById('envelope');
+  const flap = document.getElementById('flap');
+  const envelopeText = document.getElementById('envelopeText');
+  const hearts = document.getElementById('hearts');
+  const letter = document.getElementById('letter');
+  const letterText = document.getElementById('letterText');
+  let opened = false;
+
+  function openEnvelope() {
+    if (opened) return; 
+    opened = true;
+    flap.classList.add('open');
+    envelopeText.style.opacity = '0';
+
+    setTimeout(() => {
+      // Fade out main envelope for smooth transition
+      envelope.style.transition = 'opacity 9s ease';
+      envelope.style.opacity = '1';
+
+      
+      hearts.classList.add('visible');
+    }, 9000);
+
+    // Show letter after envelope fades (after hearts visible)
+    setTimeout(() => {
+      envelope.parentElement.style.pointerEvents = 'none';
+      letter.classList.add('visible');
+
+      // Reset and trigger typing animation on letterText
+      letterText.style.animation = 'none';
+      letterText.style.width = '0';
+
+      // Force reflow to restart CSS animation
+      void letterText.offsetWidth;
+
+      // Start typewriter effect after brief delay
+      setTimeout(() => {
+        letterText.style.animation = 'typing 14s steps(110) 0.7s forwards, blinkCaret 1s step-end infinite';
+      }, 50);
+
+      // Start floating hearts continuously
+      continuousFloatingHearts();
+    }, 1800);
+
+  }
+
+  function continuousFloatingHearts() {
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('floating-heart');
+      const emojis = ['❤️','💕','💖','💗','💓'];
+      heart.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+      heart.style.left = (Math.random() * (window.innerWidth * 0.9)) + 'px';
+      heart.style.top = (window.innerHeight + 30) + 'px';
+      heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      heart.style.animationDelay = (Math.random() * 6) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => { heart.remove(); }, 8000);
+    }
+    for(let i=0; i<15; i++) {
+      setTimeout(createHeart, i*1400);
+    }
+    setInterval(createHeart, 900);
+  }
+
+    document.querySelector('.envelope-container').addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openEnvelope();
+    }
+  });
+</script>
+
+</body>
+</html>
